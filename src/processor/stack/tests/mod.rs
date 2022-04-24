@@ -1,7 +1,7 @@
-use crate::math::{ field };
-use crate::utils::{ hasher };
-use super::{ Stack, super::ProgramInputs, OpHint, OpCode };
-use crate::{ HASH_STATE_WIDTH };
+use super::{super::ProgramInputs, OpCode, OpHint, Stack};
+use crate::math::field;
+use crate::utils::hasher;
+use crate::HASH_STATE_WIDTH;
 
 mod comparisons;
 mod conditional;
@@ -229,26 +229,6 @@ fn add() {
 }
 
 #[test]
-fn xor32() {
-    let mut stack = init_stack(&[1, 1], &[], &[], TRACE_LENGTH);
-    stack.execute(OpCode::Xor32, OpHint::None);
-    assert_eq!(vec![0, 0, 0, 0, 0, 0, 0, 0], get_stack_state(&stack, 1));
-
-    assert_eq!(1, stack.depth);
-    assert_eq!(2, stack.max_depth);
-}
-
-#[test]
-fn rotateleft32() {
-    let mut stack = init_stack(&[1, 1], &[], &[], TRACE_LENGTH);
-    stack.execute(OpCode::RotateLeft32, OpHint::None);
-    assert_eq!(vec![2, 0, 0, 0, 0, 0, 0, 0], get_stack_state(&stack, 1));
-
-    assert_eq!(1, stack.depth);
-    assert_eq!(2, stack.max_depth);
-}
-
-#[test]
 fn mul() {
     let mut stack = init_stack(&[2, 3], &[], &[], TRACE_LENGTH);
     stack.execute(OpCode::Mul, OpHint::None);
@@ -262,7 +242,10 @@ fn mul() {
 fn inv() {
     let mut stack = init_stack(&[2, 3], &[], &[], TRACE_LENGTH);
     stack.execute(OpCode::Inv, OpHint::None);
-    assert_eq!(vec![field::inv(2), 3, 0, 0, 0, 0, 0, 0], get_stack_state(&stack, 1));
+    assert_eq!(
+        vec![field::inv(2), 3, 0, 0, 0, 0, 0, 0],
+        get_stack_state(&stack, 1)
+    );
 
     assert_eq!(2, stack.depth);
     assert_eq!(2, stack.max_depth);
@@ -279,7 +262,10 @@ fn inv_zero() {
 fn neg() {
     let mut stack = init_stack(&[2, 3], &[], &[], TRACE_LENGTH);
     stack.execute(OpCode::Neg, OpHint::None);
-    assert_eq!(vec![field::neg(2), 3, 0, 0, 0, 0, 0, 0], get_stack_state(&stack, 1));
+    assert_eq!(
+        vec![field::neg(2), 3, 0, 0, 0, 0, 0, 0],
+        get_stack_state(&stack, 1)
+    );
 
     assert_eq!(2, stack.depth);
     assert_eq!(2, stack.max_depth);
@@ -377,7 +363,12 @@ fn rescr() {
 // HELPER FUNCTIONS
 // ================================================================================================
 
-fn init_stack(public_inputs: &[u128], secret_inputs_a: &[u128], secret_inputs_b: &[u128], trace_length: usize) -> Stack {
+fn init_stack(
+    public_inputs: &[u128],
+    secret_inputs_a: &[u128],
+    secret_inputs_b: &[u128],
+    trace_length: usize,
+) -> Stack {
     let inputs = ProgramInputs::new(public_inputs, secret_inputs_a, secret_inputs_b);
     return Stack::new(&inputs, trace_length);
 }
