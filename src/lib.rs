@@ -126,7 +126,7 @@ const PUSH_OP_ALIGNMENT: usize = 8;
 
 // HASH OPERATION
 // ------------------------------------------------------------------------------------------------
-const HASH_STATE_RATE: usize = 4;
+const HASH_STATE_RATE: usize = 2;
 const HASH_STATE_CAPACITY: usize = 2;
 const HASH_STATE_WIDTH: usize = HASH_STATE_RATE + HASH_STATE_CAPACITY;
 const HASH_NUM_ROUNDS: usize = 10;
